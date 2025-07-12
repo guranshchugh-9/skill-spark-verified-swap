@@ -1,5 +1,5 @@
 
-import { Star, MapPin, Award, MessageSquare } from "lucide-react";
+import { Star, MapPin, Award, MessageSquare, Eye, Sparkles } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,95 +23,113 @@ interface SkillCardProps {
 
 export const SkillCard = ({ user }: SkillCardProps) => {
   return (
-    <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group">
-      <CardContent className="p-6">
-        <div className="flex items-start gap-4 mb-4">
+    <Card className="group relative overflow-hidden glass-morphism border-2 border-white/10 hover:border-primary/20 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2">
+      {/* Animated background gradient */}
+      <div className="absolute inset-0 gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
+      
+      {/* Glow effect */}
+      <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 glow-secondary"></div>
+      
+      <CardContent className="p-8 relative">
+        <div className="flex items-start gap-6 mb-6">
           <div className="relative">
-            <Avatar className="h-16 w-16">
+            <div className="absolute inset-0 gradient-primary rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300 scale-110"></div>
+            <Avatar className="h-20 w-20 border-4 border-white/10 relative z-10">
               <AvatarImage src={user.avatar} alt={user.name} />
-              <AvatarFallback className="bg-blue-100 text-blue-600 text-lg font-semibold">
+              <AvatarFallback className="gradient-secondary text-primary text-2xl font-bold">
                 {user.name.split(" ").map(n => n[0]).join("")}
               </AvatarFallback>
             </Avatar>
             {user.verified && (
-              <div className="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-1">
-                <Award className="h-3 w-3 text-white" />
+              <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-green-400 to-green-600 rounded-full p-2 border-4 border-background">
+                <Award className="h-4 w-4 text-white" />
               </div>
             )}
           </div>
           
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-semibold text-gray-900 truncate">{user.name}</h3>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="text-2xl font-bold text-foreground truncate group-hover:text-gradient transition-colors duration-300">
+                {user.name}
+              </h3>
               {user.verified && (
-                <Badge variant="secondary" className="bg-green-100 text-green-700 text-xs">
+                <Badge className="gradient-primary text-white border-0 px-3 py-1">
+                  <Sparkles className="h-3 w-3 mr-1" />
                   Verified
                 </Badge>
               )}
             </div>
             
             {user.location && (
-              <div className="flex items-center text-gray-500 text-sm mb-2">
-                <MapPin className="h-3 w-3 mr-1" />
+              <div className="flex items-center text-muted-foreground text-base mb-3">
+                <MapPin className="h-4 w-4 mr-2" />
                 {user.location}
               </div>
             )}
             
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4">
               <div className="flex items-center">
-                <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                <span className="text-sm font-medium ml-1">{user.rating}</span>
+                <Star className="h-5 w-5 text-yellow-400 fill-current" />
+                <span className="text-lg font-semibold ml-2">{user.rating}</span>
               </div>
-              <span className="text-gray-300">•</span>
-              <span className="text-sm text-gray-600">{user.availability}</span>
+              <span className="text-muted-foreground">•</span>
+              <span className="text-base text-muted-foreground font-medium">{user.availability}</span>
             </div>
           </div>
         </div>
 
-        <div className="space-y-3 mb-4">
+        <div className="space-y-4 mb-8">
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-2">Skills Offered</h4>
-            <div className="flex flex-wrap gap-1">
+            <h4 className="text-base font-semibold text-foreground mb-3 flex items-center gap-2">
+              <div className="w-2 h-2 gradient-primary rounded-full"></div>
+              Skills Offered
+            </h4>
+            <div className="flex flex-wrap gap-2">
               {user.skillsOffered.slice(0, 3).map((skill) => (
-                <Badge key={skill} variant="secondary" className="bg-blue-50 text-blue-700 text-xs">
+                <Badge key={skill} className="gradient-secondary text-primary border-0 px-3 py-1 text-sm font-medium">
                   {skill}
                 </Badge>
               ))}
               {user.skillsOffered.length > 3 && (
-                <Badge variant="secondary" className="bg-gray-100 text-gray-600 text-xs">
-                  +{user.skillsOffered.length - 3}
+                <Badge variant="outline" className="border-primary/30 text-primary px-3 py-1 text-sm">
+                  +{user.skillsOffered.length - 3} more
                 </Badge>
               )}
             </div>
           </div>
           
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-2">Skills Wanted</h4>
-            <div className="flex flex-wrap gap-1">
+            <h4 className="text-base font-semibold text-foreground mb-3 flex items-center gap-2">
+              <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+              Looking to Learn
+            </h4>
+            <div className="flex flex-wrap gap-2">
               {user.skillsWanted.slice(0, 2).map((skill) => (
-                <Badge key={skill} variant="outline" className="text-xs">
+                <Badge key={skill} variant="outline" className="border-muted-foreground/30 text-muted-foreground px-3 py-1 text-sm hover:border-primary/50 hover:text-primary transition-colors">
                   {skill}
                 </Badge>
               ))}
               {user.skillsWanted.length > 2 && (
-                <Badge variant="outline" className="text-xs">
-                  +{user.skillsWanted.length - 2}
+                <Badge variant="outline" className="border-muted-foreground/30 text-muted-foreground px-3 py-1 text-sm">
+                  +{user.skillsWanted.length - 2} more
                 </Badge>
               )}
             </div>
           </div>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <Button 
-            size="sm" 
-            className="flex-1 bg-blue-600 hover:bg-blue-700 group-hover:bg-blue-700 transition-colors"
+            className="flex-1 gradient-primary hover:scale-105 transition-all duration-200 font-semibold py-6 text-base group/btn"
           >
-            <MessageSquare className="h-4 w-4 mr-2" />
-            Request Swap
+            <MessageSquare className="h-5 w-5 mr-2 group-hover/btn:rotate-12 transition-transform" />
+            Start Swap
           </Button>
-          <Button size="sm" variant="outline" className="px-3">
-            View Profile
+          <Button 
+            variant="outline" 
+            className="px-6 py-6 border-2 hover:bg-primary/5 hover:border-primary/50 transition-all duration-200 group/btn"
+          >
+            <Eye className="h-5 w-5 group-hover/btn:scale-110 transition-transform" />
           </Button>
         </div>
       </CardContent>
